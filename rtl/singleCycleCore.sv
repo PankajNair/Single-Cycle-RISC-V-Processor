@@ -34,12 +34,12 @@ logic aluSrc, pcTargetSrc, pcSrc, regWrite;
 logic beq, bne, blt, bge, bltu, bgeu, zero;
 logic [2:0] resultSrc,immSrc,loadSrc;
 logic [1:0] storeSrc;
-logic [3:0] aluControl;
+logic [4:0] aluControl;
 
 controlUnit controlUnitInst(
 .op(instr[6:0]),
 .funct3(instr[14:12]),
-.funct7B5(instr[30]), 
+.funct7(instr[31:25]), 
 .zero(zero), 
 .beq(beq), 
 .bne(bne), 

@@ -23,7 +23,8 @@
 module singleCycleTop(
 input logic clk, reset,
 output logic [31:0] writeData,dataAddress,
-output logic memWrite );
+output logic memWrite 
+);
 
 logic [31:0] pc, instr, readData;
 logic [3:0] writeStrobe;

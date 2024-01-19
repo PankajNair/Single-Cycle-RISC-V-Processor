@@ -23,12 +23,13 @@
 module controlUnit(
 input logic [6:0] op,
 input logic [2:0] funct3,
-input logic funct7B5, zero, beq, bne, blt, bge, bltu, bgeu,
+input logic [6:0] funct7,
+input logic zero, beq, bne, blt, bge, bltu, bgeu,
 output logic [2:0] resultSrc, loadSrc,
 output logic memWrite, pcSrc, aluSrc, regWrite, pcTargetSrc,
 output logic [2:0] immSrc,
 output logic [1:0] storeSrc,
-output logic [3:0] aluControl
+output logic [4:0] aluControl
     );
 
 logic [1:0] aluOp;
@@ -51,7 +52,7 @@ mainDecoder mainDecoderInst (
 aluDecoder aluDecoderInst (
 .opB5(op[5]),
 .funct3(funct3),
-.funct7B5(funct7B5),
+.funct7(funct7),
 .aluOp(aluOp),
 .aluControl(aluControl)
     );
