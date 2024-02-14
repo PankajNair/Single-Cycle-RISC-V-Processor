@@ -16,7 +16,6 @@
 // Revision:
 // Revision 0.01 - File Created
 // Additional Comments:
-// Change auipc to add and add multiplexer in path for auipc or add inst
 //////////////////////////////////////////////////////////////////////////////////
 
 
