@@ -4,4 +4,4 @@ My implementation of the RV32IM processor based on the Textbook - Digital Design
 Microarchitecture:
 ![processor](https://github.com/PankajNair/Single-Cycle-RISC-Processor/blob/main/processor.png)
 
-The processor implements all base integer instructions except for ecall and ebreak. The 'riscvtest.mem' file contains the machine code for the processor to execute. Upon successful execution, the processor stores the value 25 in address 100 of data memory. The testbenches for each module in the design are also available.
+The processor implements all base integer and multiply instructions except for ecall and ebreak. The 'riscvtest.mem' file contains the machine code for the processor to execute. Upon successful execution, the processor stores the value 25 in address 100 of data memory. The testbenches for each module in the design are also available.
