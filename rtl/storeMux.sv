@@ -22,25 +22,26 @@
 
 module storeMux(
 input logic [1:0] storeSrc,
+input logic [31:0] writeData,
 input logic [31:0] storeAddress,
-output logic [3:0] writeStrobe
+output logic [31:0] storeData
     );
 
 always_comb
 begin
     case(storeSrc)
-    2'b10: writeStrobe = 4'b1111;  //sw
+    2'b10: storeData = writeData;  //sw
     2'b01: case(storeAddress[1:0]) //sh
-            2'b00: writeStrobe = 4'b0011;
-            2'b01: writeStrobe = 4'b1100;
+            2'b00: storeData = {{16{writeData[15]}},writeData[15:0]};
+            2'b01: storeData = {{16{writeData[31]}},writeData[31:16]};
            endcase
     2'b00: case(storeAddress[1:0]) //sb
-            2'b00: writeStrobe = 4'b0001;
-            2'b01: writeStrobe = 4'b0010;
-            2'b10: writeStrobe = 4'b0100;
-            2'b11: writeStrobe = 4'b1000;
+            2'b00: storeData = {{24{writeData[7]}},writeData[7:0]};
+            2'b01: storeData = {{24{writeData[15]}},writeData[15:8]};
+            2'b10: storeData = {{24{writeData[23]}},writeData[23:16]};
+            2'b11: storeData = {{24{writeData[31]}},writeData[31:24]};
            endcase
-    default: writeStrobe = 4'b1111;
+    default: storeData = writeData;
     endcase
 end
 

@@ -30,7 +30,7 @@ output logic [31:0] loadData
 always_comb
 begin
     case (loadSrc)
-        3'b010: loadData = readData;  //lw
+        3'b010: loadData = readData;   //lw
         3'b001: case(loadAddress[1:0]) //lh
                     2'b00: loadData = {{16{readData[15]}},readData[15:0]};
                     2'b01: loadData = {{16{readData[31]}},readData[31:16]};
