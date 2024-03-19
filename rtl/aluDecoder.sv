@@ -54,7 +54,6 @@ begin
                    3'h7: aluControl = (funct7 == 7'h01)? 5'h11:5'h2;      //remu, and, andi
                    default: aluControl = 5'bx; 
                endcase
-        default: aluControl = 5'bx;
     endcase
 end
 

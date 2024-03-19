@@ -22,12 +22,11 @@
 
 module singleCycleTop(
 input logic clk, reset,
-output logic [31:0] writeData,dataAddress,
+output logic [31:0] storeData,dataAddress,
 output logic memWrite 
 );
 
 logic [31:0] pc, instr, readData;
-logic [3:0] writeStrobe;
 
 singleCycleCore singleCycleCoreInst (
 .clk(clk),
@@ -36,9 +35,8 @@ singleCycleCore singleCycleCoreInst (
 .readData(readData),
 .pc(pc),
 .memWrite(memWrite),
-.aluResult(dataAddress),
-.writeData(writeData),
-.writeStrobe(writeStrobe)
+.result(dataAddress),
+.storeData(storeData)
     );
 
 instMem instMemInst ( 
@@ -49,9 +47,8 @@ instMem instMemInst (
 dataMem dataMemInst (
 .clk(clk), 
 .WE(memWrite),
-.writeStrobe(writeStrobe),
 .A(dataAddress), 
-.WD(writeData),
+.WD(storeData),
 .RD(readData) 
     );
 		    

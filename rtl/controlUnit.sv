@@ -26,7 +26,7 @@ input logic [2:0] funct3,
 input logic [6:0] funct7,
 input logic zero, beq, bne, blt, bge, bltu, bgeu,
 output logic [2:0] resultSrc, loadSrc,
-output logic memWrite, pcSrc, aluSrc, regWrite, pcTargetSrc,
+output logic memWrite, pcSrc, aluSrc, regWrite, pcTargetSrc, aluResultSrc,
 output logic [2:0] immSrc,
 output logic [1:0] storeSrc,
 output logic [4:0] aluControl
@@ -101,5 +101,7 @@ begin
     else
         storeSrc = 2'b10;
 end
+
+assign aluResultSrc = (op==7'b0110011 & funct7 == 7'h01)? 1'b1: 1'b0;
 
 endmodule

@@ -26,11 +26,10 @@ input logic [31:0] instr,
 input logic [31:0] readData,
 output logic [31:0] pc,
 output logic memWrite,
-output logic [31:0] aluResult, writeData,
-output logic [3:0] writeStrobe
+output logic [31:0] result, storeData
     );
 
-logic aluSrc, pcTargetSrc, pcSrc, regWrite;
+logic aluSrc, pcTargetSrc, pcSrc, regWrite, aluResultSrc;
 logic beq, bne, blt, bge, bltu, bgeu, zero;
 logic [2:0] resultSrc,immSrc,loadSrc;
 logic [1:0] storeSrc;
@@ -55,6 +54,7 @@ controlUnit controlUnitInst(
 .aluSrc(aluSrc), 
 .regWrite(regWrite),  
 .pcTargetSrc(pcTargetSrc),
+.aluResultSrc(aluResultSrc),
 .immSrc(immSrc),
 .aluControl(aluControl)
     );
@@ -66,6 +66,7 @@ datapath datapathInst (
 .pcSrc(pcSrc),
 .aluSrc(aluSrc), 
 .pcTargetSrc(pcTargetSrc),
+.aluResultSrc(aluResultSrc),
 .regWrite(regWrite),
 .storeSrc(storeSrc),
 .loadSrc(loadSrc),
@@ -81,9 +82,8 @@ datapath datapathInst (
 .bltu(bltu), 
 .bgeu(bgeu),
 .pc(pc),
-.aluResult(aluResult),
-.writeStrobe(writeStrobe),
-.writeData(writeData)
+.result(result),
+.storeData(storeData)
     );	
 
 endmodule

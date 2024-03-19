@@ -23,7 +23,7 @@
 module datapath(
 input logic	clk,reset,
 input logic [2:0] resultSrc, loadSrc,
-input logic	 pcSrc,aluSrc, pcTargetSrc,
+input logic	 pcSrc, aluSrc, pcTargetSrc, aluResultSrc,
 input logic [1:0] storeSrc,
 input logic	regWrite,
 input logic [2:0] immSrc,
@@ -32,16 +32,15 @@ input logic [31:0] instr,
 input logic [31:0] readData,
 output logic zero, beq, bne, blt, bge, bltu, bgeu,
 output logic [31:0] pc,
-output logic [31:0] aluResult, writeData,
-output logic [3:0] writeStrobe
+output logic [31:0] storeData, result
     );
     
 logic [31:0] pcNext,pcPlus4,pcTarget;
 logic [31:0] immExt;
 logic [31:0] srcA,srcB;
-logic [31:0] result;
+logic [31:0] aluResult,multResult,finalResult;
 logic [31:0] targetResult;
-logic [31:0] loadData;
+logic [31:0] loadData,writeData;
 
 pc pcInst(
 .clk(clk), 
@@ -81,7 +80,7 @@ regFile regFileInst(
 .RA1(instr[19:15]), 
 .RA2(instr[24:20]), 
 .WA3(instr[11:7]),
-.WD3(result),
+.WD3(finalResult),
 .RD1(srcA), 
 .RD2(writeData)
     );
@@ -112,28 +111,43 @@ alu aluInst(
 .bltu(bltu), 
 .bgeu(bgeu)
     );
+    
+multiply multiplyInst(
+.A(srcA), 
+.B(writeData),
+.multControl(aluControl),
+.multResult(multResult)
+    );
+
+aluResultMux aluResultMuxInst(
+.aluResult(aluResult),
+.multResult(multResult),
+.aluResultSrc(aluResultSrc),
+.result(result)
+    );
 
 resultMux resultMuxInst(
 .resultSrc(resultSrc),
 .readData(loadData), 
-.aluResult(aluResult), 
+.aluResult(result), 
 .pcPlus4(pcPlus4),
 .pcTarget(pcTarget),
 .immExt(immExt),
-.result(result)
+.result(finalResult)
     );
     
 loadMux loadMuxInst(
 .loadSrc(loadSrc),
-.loadAddress(aluResult),
+.loadAddress(result),
 .readData(readData),
 .loadData(loadData)
     );
 
 storeMux storeMuxInst(
 .storeSrc(storeSrc),
-.storeAddress(aluResult),
-.writeStrobe(writeStrobe)
+.storeAddress(result),
+.writeData(writeData),
+.storeData(storeData)
     );
 
 endmodule

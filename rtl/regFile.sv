@@ -38,10 +38,13 @@ end
 
 always_ff @(posedge clk)
 begin
-    if (WE3 && (WA3 != 0))
-        rf[WA3] <= WD3;
-    else
-        rf[0] <= 32'b0;
+    if(WE3)
+        begin
+            if(WA3 != 0)
+                rf[WA3] <= WD3;
+            else
+                rf[0] <= 32'b0;
+        end
 end
 
 assign RD1 = (RA1!=0)? rf[RA1]: 0;

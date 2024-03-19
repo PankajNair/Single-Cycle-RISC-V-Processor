@@ -16,6 +16,7 @@
 // Revision:
 // Revision 0.01 - File Created
 // Additional Comments:
+// Change auipc to add and add multiplexer in path for auipc or add inst
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -26,7 +27,7 @@ output logic signed [31:0] aluResult,
 output logic zero, beq, bne, blt, bge, bltu, bgeu
     );
 
-logic [63:0] result;
+logic [31:0] result;
 
 always_comb
 begin
@@ -41,19 +42,11 @@ begin
         5'h7: result = A<<B;                                 //sll
         5'h8: result = A>>>B;                                //sra
         5'h9: result = A>>B;                                 //srl
-        5'ha: result = A*B;                                  //mul
-        5'hb: result = A*B;                                  //mulh
-        5'hc: result = A*$unsigned(B);                       //mulsu
-        5'hd: result = $unsigned(A)*$unsigned(B);            //mulu
-        5'he: result = A/B;                                  //div
-        5'hf: result = $unsigned(A)/$unsigned(B);            //divu
-        5'h10: result = A%B;                                 //rem
-        5'h11: result = $unsigned(A)%$unsigned(B);           //remu
         default: result = 32'bx;
     endcase
 end
 
-assign aluResult = (aluControl == (5'hb|5'hc|5'hd))? result[63:32]:result[31:0];
+assign aluResult = result;
 
 assign zero = (aluResult == 32'b0);
 assign beq = (A==B);
