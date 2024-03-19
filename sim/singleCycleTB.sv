@@ -23,7 +23,7 @@
 module singleCycleTB();
 logic clk = 0;
 logic reset;
-logic [31:0] writeData, dataAddress;
+logic [31:0] storeData, dataAddress;
 logic memWrite;
 
 always #10 clk = ~clk;
@@ -31,7 +31,7 @@ always #10 clk = ~clk;
 singleCycleTop uut(
 .clk(clk),
 .reset(reset),
-.writeData(writeData),
+.storeData(storeData),
 .dataAddress(dataAddress),
 .memWrite(memWrite));
   
@@ -42,21 +42,22 @@ begin
     reset = 0;
 end
 
-// always @(negedge clk)
-// begin
-//     if(memWrite) 
-//     begin
-//         if(dataAddress == 100 & writeData === 25) 
-//             begin
-//                 $display("Simulation succeeded");
-//                 $stop;
-//             end   
-//     end
-//     else if(dataAddress !== 96) 
-//     begin
-//         $display("Simulation failed");
-//         $stop;
-//     end
-// end
+ always @(negedge clk)
+ begin
+     if(memWrite) 
+         begin
+             if(dataAddress === 32'd100 & storeData === 32'd25) 
+                 begin
+                     $display("Simulation succeeded");
+                     $stop;
+                 end
+             else if(dataAddress !== 32'd96) 
+                 begin
+                     $display("Simulation failed");
+                     $stop;
+                 end
+         end
+         
+ end
 
 endmodule
