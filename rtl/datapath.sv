@@ -103,13 +103,7 @@ alu aluInst(
 .B(srcB),
 .aluControl(aluControl),
 .aluResult(aluResult),
-.zero(zero),
-.beq(beq), 
-.bne(bne), 
-.blt(blt), 
-.bge(bge), 
-.bltu(bltu), 
-.bgeu(bgeu)
+.zero(zero)
     );
     
 multiply multiplyInst(
@@ -136,18 +130,29 @@ resultMux resultMuxInst(
 .result(finalResult)
     );
     
-loadMux loadMuxInst(
+loadUnit loadUnitInst(
 .loadSrc(loadSrc),
 .loadAddress(result),
 .readData(readData),
 .loadData(loadData)
     );
 
-storeMux storeMuxInst(
+storeUnit storeUnitInst(
 .storeSrc(storeSrc),
 .storeAddress(result),
 .writeData(writeData),
 .storeData(storeData)
+    );
+
+branchUnit branchUnitInst(
+.A(srcA), 
+.B(srcB),
+.beq(beq), 
+.bne(bne), 
+.blt(blt), 
+.bge(bge), 
+.bltu(bltu), 
+.bgeu(bgeu)
     );
 
 endmodule

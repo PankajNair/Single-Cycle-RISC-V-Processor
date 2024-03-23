@@ -24,7 +24,7 @@ module alu(
 input logic signed [31:0] A, B,
 input logic [4:0] aluControl,
 output logic signed [31:0] aluResult,
-output logic zero, beq, bne, blt, bge, bltu, bgeu
+output logic zero
     );
 
 logic [31:0] result;
@@ -49,11 +49,5 @@ end
 assign aluResult = result;
 
 assign zero = (aluResult == 32'b0);
-assign beq = (A==B);
-assign bne = (A!=B);
-assign blt = (A<B);
-assign bge = (A>=B);
-assign bltu = ($unsigned(A)<$unsigned(B));
-assign bgeu = ($unsigned(A)>=$unsigned(B));
 
 endmodule
